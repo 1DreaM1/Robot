@@ -7,7 +7,7 @@ use Exception;
 
 class CreateRequest extends Request
 {
-    const EMAIL = "dakristl123@gmail.com";
+    private const EMAIL = "dakristl123@gmail.com";
 
     public function method(): string {
         return "POST";

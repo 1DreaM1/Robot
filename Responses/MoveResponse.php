@@ -7,8 +7,8 @@ use App\Models\Robot;
 
 class MoveResponse extends Response
 {
-    public Direction $direction;
-    public int $distance;
+    private Direction $direction;
+    private int $distance;
 
     public function __construct(
         int $code,

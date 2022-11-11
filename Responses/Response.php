@@ -6,7 +6,7 @@ use Exception;
 
 class Response
 {
-    public int $code;
+    private int $code;
 
     public mixed $data;
 
@@ -25,5 +25,4 @@ class Response
             throw new Exception("Telemetry error !", $this->code);
         }
     }
-
 }

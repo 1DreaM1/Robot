@@ -15,7 +15,7 @@ class App
 
     public function __construct() {
         $this->robot = new Robot();
-        print "\nRobot created: id = {$this->robot->id}";
+        print "\n>> Robot created: ID = {$this->robot->id} <<";
     }
 
     /**
@@ -48,15 +48,15 @@ class App
         print_r($escapeCoords);
 
         print "\nMID CORDS COUNT >> " . $ec = count($escapeCoords);
-        [$x, $y] = $escapeCoords[rand(0, $ec - 1)];
+        //[$x, $y] = $escapeCoords[rand(0, $ec - 1)];
+        [$x, $y] = $escapeCoords[0];
 
         print "\n>> EJECTING AT [$x, $y] <<";
         $this->robot->travel(Direction::RIGHT, $x - $x1);
         $this->robot->travel(Direction::DOWN, $y - $y1);
 
         if ($this->robot->escape(self::ESTIMATED_SALARY)->isSuccess()) {
-            print "\n\n----------------------------------------";
-            print "\n!! SUCCESS !!";
+            print "\n!! SUCCESS !!\n";
             return;
         }
 

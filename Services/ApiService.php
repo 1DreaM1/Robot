@@ -35,7 +35,7 @@ class ApiService
      */
     public function trySend(Request $request, int $throttle = 100): Response {
         if ($throttle <= 0) {
-            exit("\nRobot neodpovedá !\n");
+            exit("\n>> Robot not responding ! <<\n");
         }
 
         try {
