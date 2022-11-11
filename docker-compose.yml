@@ -1,0 +1,13 @@
+version: '3.1'
+services:
+  php-apache:
+    build:
+      context: ""
+      dockerfile: .docker/php-apache/Dockerfile
+    container_name: php-apache-server-zone
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - .docker/php-apache/logs/apache:/var/log/apache2
+      - .docker/php-apache/logs/php:/usr/local/etc/php/log

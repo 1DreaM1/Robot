@@ -1,0 +1,13 @@
+{
+  "name": "server-zone-php/robot",
+  "type": "project",
+
+  "require": {
+    "php": "^8.1",
+    "tcdent/php-restclient": "*"
+  },
+
+  "autoload": {
+    "psr-4": {"App\\": "/"}
+  }
+}
