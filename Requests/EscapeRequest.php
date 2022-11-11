@@ -3,6 +3,7 @@
 namespace App\Requests;
 
 use App\Responses\EscapeResponse;
+use Exception;
 
 class EscapeRequest extends Request
 {
@@ -16,7 +17,7 @@ class EscapeRequest extends Request
     }
 
     public function url(): string {
-        return "escape";
+        return $this->id ."/escape";
     }
 
     public function method(): string {
@@ -30,7 +31,10 @@ class EscapeRequest extends Request
         ];
     }
 
-    public function responseFactory(int $code, ?object $data = new \stdClass()): EscapeResponse  {
+    /**
+     * @throws Exception
+     */
+    public function responseFactory(int $code, mixed $data): EscapeResponse  {
         return new EscapeResponse($code, $data);
     }
 }

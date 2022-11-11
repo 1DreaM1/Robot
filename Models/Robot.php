@@ -16,7 +16,7 @@ class Robot
 {
     public const MAX_DISTANCE = 5;
 
-    private string $id;
+    public string $id;
 
     private ApiService $apiService;
 
@@ -27,7 +27,7 @@ class Robot
         $this->apiService = new ApiService();
 
         /** @var CreateResponse $response */
-        $response = $this->apiService->send(new CreateRequest());
+        $response = $this->apiService->trySend(new CreateRequest());
         $id = $response->getId();
 
         if (!$id) {
@@ -37,9 +37,12 @@ class Robot
         $this->id = $id;
     }
 
+    /**
+     * @throws Exception
+     */
     public function move(Direction $direction, int $distance): MoveResponse {
         /** @var MoveResponse $response */
-        $response = $this->apiService->send(
+        $response = $this->apiService->trySend(
             new MoveRequest(
                 $this->id,
                 $direction,
@@ -50,9 +53,12 @@ class Robot
         return $response;
     }
 
+    /**
+     * @throws Exception
+     */
     public function escape(int $salary): EscapeResponse {
         /** @var EscapeResponse $response */
-        $response = $this->apiService->send(
+        $response = $this->apiService->trySend(
             new EscapeRequest(
                 $this->id,
                 $salary
@@ -62,6 +68,9 @@ class Robot
         return $response;
     }
 
+    /**
+     * @throws Exception
+     */
     public function travel(Direction $direction, int $distance): void {
         if ($distance <= 0) {
             return;
@@ -71,14 +80,24 @@ class Robot
         $this->travel($direction, $distance - self::MAX_DISTANCE);
     }
 
+    /**
+     * @throws Exception
+     */
     public function getWallDistance(Direction $direction): int {
         $move = $this->move($direction, self::MAX_DISTANCE);
+        $distance = $move->getDistance();
         if ($move->isWall()) {
-            return $move->getDistance();
+            if ($distance != 0) {
+                $this->move($direction->inverted(), $distance);
+            }
+
+            return $distance;
         }
 
         $movedDistance = $this->getWallDistance($direction);
-        $this->move($direction, -self::MAX_DISTANCE);
-        return $move->getDistance() + $movedDistance;
+
+        $this->move($direction->inverted(), self::MAX_DISTANCE);
+        echo "\nMoved distance = " . $distance + $movedDistance;
+        return $distance + $movedDistance;
     }
 }

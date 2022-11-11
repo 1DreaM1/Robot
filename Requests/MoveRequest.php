@@ -4,6 +4,7 @@ namespace App\Requests;
 
 use App\Enums\Direction;
 use App\Responses\MoveResponse;
+use Exception;
 
 class MoveRequest extends Request
 {
@@ -11,14 +12,21 @@ class MoveRequest extends Request
     private Direction $direction;
     private int $distance;
 
+    /**
+     * @throws Exception
+     */
     public function __construct(string $id, Direction $direction, int $distance) {
         $this->id = $id;
         $this->direction = $direction;
         $this->distance = $distance;
+
+        if ($this->distance <= 0) {
+            throw new Exception("ERROR >> distance <= 0 !", 500);
+        }
     }
 
     public function url(): string {
-        return "move";
+        return  $this->id ."/move";
     }
 
     public function method(): string {
@@ -27,13 +35,15 @@ class MoveRequest extends Request
 
     public function parameters(): array {
         return [
-            "id" => $this->id,
             "direction" => $this->direction->value,
             "distance" => $this->distance
         ];
     }
 
-    public function responseFactory(int $code, ?object $data = new \stdClass()): MoveResponse  {
-        return new MoveResponse($code, $this->direction, $this->distance , $data);
+    /**
+     * @throws Exception
+     */
+    public function responseFactory(int $code, mixed $data): MoveResponse  {
+        return new MoveResponse($code, $data, $this->direction, $this->distance);
     }
 }

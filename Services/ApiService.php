@@ -13,7 +13,7 @@ class ApiService
 
     public function __construct() {
         $this->restClient = new RestClient([
-            "base_url" => "https://area51.serverzone.dev"
+            "base_url" => "https://area51.serverzone.dev/robot",
         ]);
     }
 
@@ -26,18 +26,23 @@ class ApiService
 
         return $request->responseFactory(
             $result->info->http_code,
-            $result->response
+            json_decode($result->response)
         );
     }
 
     /**
      * @throws Exception
      */
-    public function trySend(Request $request): ?Response {
+    public function trySend(Request $request, int $throttle = 100): Response {
+        if ($throttle <= 0) {
+            exit("\nRobot neodpovedá !\n");
+        }
+
         try {
             return $this->send($request);
         } catch (\Throwable $e) {
-            return null;
+            echo "\nERROR >> {$request->url()} >> {$e->getMessage()}";
+            return $this->trySend($request, $throttle - 1);
         }
     }
 }

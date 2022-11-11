@@ -3,43 +3,64 @@
 namespace App;
 
 use App\Enums\Direction;
-use App\Helpers\Cartesian;
 use App\Models\Robot;
+use Exception;
+use Nerd\CartesianProduct\CartesianProduct;
 
 class App
 {
     private Robot $robot;
 
-    private const ESTIMATED_SALARY = 100000;
+    private const ESTIMATED_SALARY = 50000;
 
     public function __construct() {
         $this->robot = new Robot();
+        print "Robot created: id = " . $this->robot->id;
     }
 
+    /**
+     * @throws Exception
+     */
     public function run(): void {
         $x1 = $this->robot->getWallDistance(Direction::LEFT);
+        print "\nX1 = " . $x1;
         $x2 = $this->robot->getWallDistance(Direction::RIGHT);
+        print "\nX2 = " . $x2;
         $y1 = $this->robot->getWallDistance(Direction::UP);
+        print "\nY1 = " . $y1;
         $y2 = $this->robot->getWallDistance(Direction::DOWN);
+        print "\nY2 = " . $y2;
 
         $width = $x1 + $x2;
         $height = $y1 + $y2;
+        print "\nWIDTH = " . $width;
+        print "\nHEIGHT = " . $height;
 
         $widthMids = $this->findMids($width);
         $heightMids = $this->findMids($height);
 
-        $escapeCoords = array_unique(
-            Cartesian::build([$widthMids, $heightMids])
-        );
+        $escapeCoords = (new CartesianProduct([
+            $widthMids,
+            $heightMids
+        ]))->compute();
 
-        foreach ($escapeCoords as [$x, $y]) {
-            $this->robot->travel(Direction::RIGHT, $x - $x1);
-            $this->robot->travel(Direction::DOWN, $y - $y1);
+        print "\n";
+        print_r($escapeCoords);
 
-            if ($this->robot->escape(self::ESTIMATED_SALARY)->isSuccess()) {
-                return;
-            }
+        print "\nMID CORDS COUNT >> " . $ec = count($escapeCoords);
+        [$x, $y] = $escapeCoords[rand(0, $ec)];
+
+        print "\n>> EJECTING AT [$x, $y] <<";
+        $this->robot->travel(Direction::RIGHT, $x - $x1);
+        $this->robot->travel(Direction::DOWN, $y - $y1);
+
+        if ($this->robot->escape(self::ESTIMATED_SALARY)->isSuccess()) {
+            print "\n\n----------------------------------------";
+            print "\n!! SUCCESS !!";
+            return;
         }
+
+        print "\n!! CRASH :( !!";
     }
 
     private function findMids(int $distance): array {
@@ -48,5 +69,4 @@ class App
             $distance % 2 == 0 ? $mid + 1 : null
          ]);
     }
-
 }

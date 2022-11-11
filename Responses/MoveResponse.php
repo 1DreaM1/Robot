@@ -3,6 +3,7 @@
 namespace App\Responses;
 
 use App\Enums\Direction;
+use App\Models\Robot;
 
 class MoveResponse extends Response
 {
@@ -11,9 +12,9 @@ class MoveResponse extends Response
 
     public function __construct(
         int $code,
+        mixed $data,
         Direction $direction,
         int $distance,
-        ?object $data = new \stdClass(),
     ) {
         parent::__construct($code, $data);
 
@@ -26,6 +27,6 @@ class MoveResponse extends Response
     }
 
     public function isWall(): bool {
-        return $this->data->distance < $this->distance || $this->data->distance == 0;
+        return $this->data->distance < abs($this->distance);
     }
 }
