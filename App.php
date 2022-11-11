@@ -48,8 +48,8 @@ class App
         print_r($escapeCoords);
 
         print "\nMID CORDS COUNT >> " . $ec = count($escapeCoords);
-        //[$x, $y] = $escapeCoords[rand(0, $ec - 1)];
-        [$x, $y] = $escapeCoords[0];
+        [$x, $y] = $escapeCoords[rand(0, $ec - 1)];
+        //[$x, $y] = $escapeCoords[0];
 
         print "\n>> EJECTING AT [$x, $y] <<";
         $this->robot->travel(Direction::RIGHT, $x - $x1);

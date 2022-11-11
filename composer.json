@@ -5,11 +5,16 @@
   "require": {
     "php": "^8.1",
     "tcdent/php-restclient": "*",
-    "th3n3rd/cartesian-product": "^0.3.0",
-    "ext-random": "*"
+    "th3n3rd/cartesian-product": "^0.3.0"
   },
 
   "autoload": {
     "psr-4": {"App\\": "./"}
+  },
+
+  "scripts": {
+    "robot": [
+      "@php -f index.php"
+    ]
   }
 }

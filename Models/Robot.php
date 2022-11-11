@@ -91,7 +91,7 @@ class Robot
         $movedDistance = $this->getWallDistance($direction);
 
         $this->move($direction->inverted(), self::MAX_DISTANCE);
-        echo "\nMoved distance = " . $distance + $movedDistance;
-        return $distance + $movedDistance;
+        echo "\nMoved distance = " . $result = $distance + $movedDistance;
+        return $result;
     }
 }
