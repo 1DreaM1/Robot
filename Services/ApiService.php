@@ -41,7 +41,7 @@ class ApiService
         try {
             return $this->send($request);
         } catch (\Throwable $e) {
-            echo "\nERROR >> {$request->url()} >> {$e->getMessage()}";
+            echo "\nERROR >> " . $request::class .">> {$e->getMessage()}";
             return $this->trySend($request, $throttle - 1);
         }
     }

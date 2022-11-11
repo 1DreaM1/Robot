@@ -18,11 +18,11 @@ class Response
         $this->data = $data;
 
         if ($this->code === 410) {
-            exit("\nDošla šťava !\n");
+            exit("\n>> Out of fuel ! <<\n");
         }
 
         if (!in_array($this->code, [200, 201])) {
-            throw new Exception("Chyba komunikácie !", $this->code);
+            throw new Exception("Telemetry error !", $this->code);
         }
     }
 

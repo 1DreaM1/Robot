@@ -28,13 +28,7 @@ class Robot
 
         /** @var CreateResponse $response */
         $response = $this->apiService->trySend(new CreateRequest());
-        $id = $response->getId();
-
-        if (!$id) {
-            throw new Exception();
-        }
-
-        $this->id = $id;
+        $this->id = $response->getId();
     }
 
     /**

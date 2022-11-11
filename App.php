@@ -11,11 +11,11 @@ class App
 {
     private Robot $robot;
 
-    private const ESTIMATED_SALARY = 50000;
+    private const ESTIMATED_SALARY = 100000;
 
     public function __construct() {
         $this->robot = new Robot();
-        print "Robot created: id = " . $this->robot->id;
+        print "\nRobot created: id = {$this->robot->id}";
     }
 
     /**
@@ -23,18 +23,18 @@ class App
      */
     public function run(): void {
         $x1 = $this->robot->getWallDistance(Direction::LEFT);
-        print "\nX1 = " . $x1;
+        print "\nX1 = $x1";
         $x2 = $this->robot->getWallDistance(Direction::RIGHT);
-        print "\nX2 = " . $x2;
+        print "\nX2 = $x2";
         $y1 = $this->robot->getWallDistance(Direction::UP);
-        print "\nY1 = " . $y1;
+        print "\nY1 = $y1";
         $y2 = $this->robot->getWallDistance(Direction::DOWN);
-        print "\nY2 = " . $y2;
+        print "\nY2 = $y2";
 
         $width = $x1 + $x2;
         $height = $y1 + $y2;
-        print "\nWIDTH = " . $width;
-        print "\nHEIGHT = " . $height;
+        print "\nWIDTH = $width";
+        print "\nHEIGHT = $height";
 
         $widthMids = $this->findMids($width);
         $heightMids = $this->findMids($height);
@@ -48,7 +48,7 @@ class App
         print_r($escapeCoords);
 
         print "\nMID CORDS COUNT >> " . $ec = count($escapeCoords);
-        [$x, $y] = $escapeCoords[rand(0, $ec)];
+        [$x, $y] = $escapeCoords[rand(0, $ec - 1)];
 
         print "\n>> EJECTING AT [$x, $y] <<";
         $this->robot->travel(Direction::RIGHT, $x - $x1);
@@ -60,7 +60,7 @@ class App
             return;
         }
 
-        print "\n!! CRASH :( !!";
+        print "\n!! CRASH !!\n";
     }
 
     private function findMids(int $distance): array {
